@@ -18,7 +18,7 @@ Proceso edad_persona
 		
 		// Capturamos datos de entrada
 		Escribir 'Digite año de nacimiento.. (aaaa)';
-		Leer anio_nac;
+		anio_nac<-validarDato();
 		
 		// Condicional
 		Si (anio_nac<1890) O (anio_nac>anio_act) Entonces
@@ -29,7 +29,8 @@ Proceso edad_persona
 			Repetir
 				// Capturamos datos de entrada
 				Escribir 'Digite mes de nacimiento.. (1-12)';
-				Leer mes_nac;
+				mes_nac<-validarDato();
+				
 				num_dia <- 0;
 				// Condicionales anidados
 				Si mes_nac==2 Entonces
@@ -57,7 +58,8 @@ Proceso edad_persona
 			Repetir
 				// Capturamos datos de entrada
 				Escribir 'Digite día de nacimiento.. (1-',num_dia,')';
-				Leer dia_nac;
+				dia_nac<-validarDato();
+				
 				// Condicionales anidados
 				Si anio_nac>1890 Y anio_nac<=2021 Entonces
 					Si (anio_nac MOD 4==0) Y (anio_nac MOD 100<>0) O (anio_nac MOD 400==0) Entonces
@@ -92,7 +94,7 @@ Proceso edad_persona
 						Escribir 'Edad: ',edad,' años';
 					SiNo
 						// Mostramos datos de salida
-						Escribir 'Edad: ',edad-1,'años';
+						Escribir 'Edad: ',edad-1,' años';
 					FinSi
 				FinSi
 			FinSi
@@ -101,7 +103,7 @@ Proceso edad_persona
 			
 			Repetir
 				Escribir 'Conocer nueva edad.. (0)';
-				Leer nueva_edad;
+				nueva_edad<-validarDato();
 				
 				Si nueva_edad<>0 Entonces
 					Borrar Pantalla;
@@ -111,3 +113,33 @@ Proceso edad_persona
 		FinSi
 	FinMientras
 FinProceso
+
+//SubProceso para validar los datos de entrada
+SubProceso dato<-validarDato()
+	Definir num,sub_cadena Como Cadena;
+	Definir validarNum Como Logico;
+	Definir long,j, dato Como Entero;
+	
+	Repetir
+		//Escribir "Ingrese un numero";
+		Leer num;
+		
+		long<-Longitud(num);
+		validarNum<-Verdadero;
+		
+		Para j<-0 Hasta long-1 Con Paso 1 Hacer
+			sub_cadena<-Subcadena(num,j,j);
+			
+			Si sub_cadena<>'0' Y sub_cadena<>'1' Y sub_cadena<>'2' Y sub_cadena<>'3' Y sub_cadena<>'4' Y sub_cadena<>'5' Y sub_cadena<>'6' Y sub_cadena<>'7' Y sub_cadena<>'8' Y sub_cadena<>'9' Entonces
+				validarNum<-Falso;
+			FinSi
+			
+		FinPara
+		
+		Si validarNum==Falso Entonces
+			Escribir "Se requiere un numero Entero, por favor vuelva a intentarlo";
+		FinSi
+	Hasta Que validarNum==Verdadero
+	
+	dato<-ConvertirANumero(num);
+FinSubProceso
